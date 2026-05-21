@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Jbot.Views.ExplorerPage"
+             BackgroundColor="#1a1a1a"
+             Title="API">
+
+    <Grid ColumnDefinitions="280,*">
+
+        <!-- Left: Endpoints -->
+        <ScrollView Grid.Column="0" BackgroundColor="#222222">
+            <VerticalStackLayout Padding="14" Spacing="8">
+                <Label Text="API Explorer" FontSize="16" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" Margin="0,0,0,8" />
+
+                <Border BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 10" Stroke="#3a3a3a" StrokeThickness="1" Padding="12">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Свой endpoint" FontSize="12" TextColor="#A09B93" />
+                        <Entry x:Name="CustomEndpoint" Text="settings/user-info" Placeholder="endpoint" BackgroundColor="#1a1a1a" TextColor="#E8E4DE" PlaceholderColor="#666" FontSize="12" />
+                        <Button Text="Отправить" Clicked="OnCustomGetClicked" BackgroundColor="#D97757" TextColor="White" FontSize="12" CornerRadius="8" HeightRequest="36" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Быстрые запросы" FontSize="12" TextColor="#888" Margin="0,8,0,0" />
+
+                <Button Text="user-info" Clicked="OnQuickClicked" ClassId="settings/user-info" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="page-counters" Clicked="OnQuickClicked" ClassId="count/page-counters" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="homework count" Clicked="OnQuickClicked" ClassId="count/homework" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="homework list" Clicked="OnQuickClicked" ClassId="homework/operations/list?page=1&amp;type=0" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="schedule today" Clicked="OnQuickClicked" ClassId="schedule/operations/get-by-date" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="schedule month" Clicked="OnQuickClicked" ClassId="schedule/operations/get-month" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="attendance" Clicked="OnQuickClicked" ClassId="dashboard/progress/attendance-statistic" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="activity" Clicked="OnQuickClicked" ClassId="dashboard/progress/activity" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="chart/progress" Clicked="OnQuickClicked" ClassId="dashboard/chart/progress" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="leader-group" Clicked="OnQuickClicked" ClassId="dashboard/progress/leader-group" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="leader-stream" Clicked="OnQuickClicked" ClassId="dashboard/progress/leader-stream" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="student-visits" Clicked="OnQuickClicked" ClassId="progress/operations/student-visits" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="student-exams" Clicked="OnQuickClicked" ClassId="progress/operations/student-exams" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="achievements" Clicked="OnQuickClicked" ClassId="profile/statistic/student-achievements" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="latest-news" Clicked="OnQuickClicked" ClassId="news/operations/latest-news" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+                <Button Text="group-specs" Clicked="OnQuickClicked" ClassId="settings/group-specs" BackgroundColor="#2d2d2d" TextColor="#A09B93" FontSize="12" CornerRadius="8" HeightRequest="34" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Right: Response -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+            <Border Grid.Row="0" BackgroundColor="#242424" StrokeThickness="0" Padding="16,10">
+                <HorizontalStackLayout Spacing="12">
+                    <Label x:Name="EndpointLabel" Text="Выберите endpoint" FontSize="13" FontFamily="OpenSansSemibold" TextColor="#A09B93" VerticalOptions="Center" />
+                    <Button x:Name="BtnCopy" Text="Копировать" Clicked="OnCopyClicked" BackgroundColor="#363636" TextColor="#A09B93" FontSize="11" CornerRadius="6" HeightRequest="30" Padding="10,0" IsVisible="False" />
+                </HorizontalStackLayout>
+            </Border>
+            <ScrollView Grid.Row="1" Padding="14">
+                <Border BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 10" Stroke="#3a3a3a" StrokeThickness="1" Padding="16">
+                    <Editor x:Name="ResponseEditor" Text="← Выберите endpoint" IsReadOnly="True" FontSize="12" TextColor="#E8E4DE" BackgroundColor="Transparent" AutoSize="TextChanges" MinimumHeightRequest="400" />
+                </Border>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

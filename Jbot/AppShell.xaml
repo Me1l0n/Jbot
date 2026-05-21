@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Jbot.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Jbot.Views"
+    Title="Jbot"
+    Shell.BackgroundColor="#242424"
+    Shell.ForegroundColor="#F5F5F0"
+    Shell.TitleColor="#F5F5F0"
+    Shell.TabBarBackgroundColor="#1a1a1a"
+    Shell.TabBarForegroundColor="#D97757"
+    Shell.TabBarTitleColor="#D97757"
+    Shell.TabBarUnselectedColor="#666"
+    FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <ShellContent Title="Главная"
+                      Icon="{x:Null}"
+                      ContentTemplate="{DataTemplate views:DashboardPage}" />
+
+        <ShellContent Title="Расписание"
+                      Icon="{x:Null}"
+                      ContentTemplate="{DataTemplate views:SchedulePage}" />
+
+        <ShellContent Title="Оценки"
+                      Icon="{x:Null}"
+                      ContentTemplate="{DataTemplate views:GradesPage}" />
+
+        <ShellContent Title="Домашки"
+                      Icon="{x:Null}"
+                      ContentTemplate="{DataTemplate views:HomeworkPage}" />
+
+        <ShellContent Title="API"
+                      Icon="{x:Null}"
+                      ContentTemplate="{DataTemplate views:ExplorerPage}" />
+    </TabBar>
+
+</Shell>

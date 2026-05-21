@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Jbot.Views.SchedulePage"
+             BackgroundColor="#1a1a1a"
+             Title="Расписание">
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" BackgroundColor="#242424" StrokeThickness="0" Padding="20,12">
+            <HorizontalStackLayout Spacing="8">
+                <Button x:Name="BtnToday" Text="Сегодня" Clicked="OnTodayClicked"
+                        BackgroundColor="#D97757" TextColor="White" FontSize="13" FontFamily="OpenSansSemibold" CornerRadius="10" Padding="18,8" />
+                <Button x:Name="BtnMonth" Text="Месяц" Clicked="OnMonthClicked"
+                        BackgroundColor="#363636" TextColor="#A09B93" FontSize="13" FontFamily="OpenSansSemibold" CornerRadius="10" Padding="18,8" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,12" Spacing="10">
+                <ActivityIndicator x:Name="Loader" IsRunning="True" Color="#D97757" HeightRequest="40" />
+                <Label x:Name="DateHeader" Text="" FontSize="17" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" IsVisible="False" />
+                <VerticalStackLayout x:Name="ScheduleStack" Spacing="10" />
+                <Label x:Name="EmptyLabel" Text="Нет занятий" FontSize="14" TextColor="#888" HorizontalOptions="Center" IsVisible="False" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

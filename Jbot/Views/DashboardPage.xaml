@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Jbot.Views.DashboardPage"
+             BackgroundColor="#1a1a1a"
+             Title="Главная">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,20" Spacing="20">
+
+            <ActivityIndicator x:Name="Loader" IsRunning="True" IsVisible="True" Color="#D97757" HeightRequest="40" />
+
+            <!-- Profile Card -->
+            <Border x:Name="ProfileCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 16" Stroke="#3a3a3a" StrokeThickness="1" Padding="24" IsVisible="False">
+                <Grid ColumnDefinitions="68,*" ColumnSpacing="20">
+                    <Border StrokeShape="RoundRectangle 34" StrokeThickness="2" Stroke="#D97757" WidthRequest="68" HeightRequest="68" HorizontalOptions="Start">
+                        <Image x:Name="AvatarImage" WidthRequest="64" HeightRequest="64" Aspect="AspectFill" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                        <Label x:Name="NameLabel" Text="" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+                        <Label x:Name="GroupLabel" Text="" FontSize="14" TextColor="#A09B93" />
+                        <HorizontalStackLayout Spacing="10">
+                            <Border BackgroundColor="#3a3a3a" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,5">
+                                <Label x:Name="LevelLabel" Text="" FontSize="12" TextColor="#D97757" />
+                            </Border>
+                            <Border BackgroundColor="#3a3a3a" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,5">
+                                <Label x:Name="PointsLabel" Text="" FontSize="12" TextColor="#E8C872" />
+                            </Border>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Attendance -->
+            <Border x:Name="AttendanceCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 16" Stroke="#3a3a3a" StrokeThickness="1" Padding="24" IsVisible="False">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Посещаемость" FontSize="17" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 12" Stroke="Transparent" Padding="14">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                                <Label Text="Неделя" FontSize="11" TextColor="#A09B93" HorizontalOptions="Center" />
+                                <Label x:Name="AttWeekLabel" Text="—" FontSize="28" FontFamily="OpenSansSemibold" TextColor="#D97757" HorizontalOptions="Center" />
+                                <Label x:Name="AttWeekDiffLabel" Text="" FontSize="11" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 12" Stroke="Transparent" Padding="14">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                                <Label Text="Месяц" FontSize="11" TextColor="#A09B93" HorizontalOptions="Center" />
+                                <Label x:Name="AttMonthLabel" Text="—" FontSize="28" FontFamily="OpenSansSemibold" TextColor="#D97757" HorizontalOptions="Center" />
+                                <Label x:Name="AttMonthDiffLabel" Text="" FontSize="11" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 12" Stroke="Transparent" Padding="14">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+                                <Label Text="Всего" FontSize="11" TextColor="#A09B93" HorizontalOptions="Center" />
+                                <Label x:Name="AttTotalLabel" Text="—" FontSize="28" FontFamily="OpenSansSemibold" TextColor="#7EC699" HorizontalOptions="Center" />
+                                <Label Text="за всё время" FontSize="11" TextColor="#666" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Progress Chart -->
+            <Border x:Name="ProgressChartCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 16" Stroke="#3a3a3a" StrokeThickness="1" Padding="24" IsVisible="False">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Прогресс по месяцам" FontSize="17" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+                    <Grid x:Name="ProgressChartGrid" HeightRequest="120" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Leaders -->
+            <Border x:Name="LeadersCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 16" Stroke="#3a3a3a" StrokeThickness="1" Padding="24" IsVisible="False">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Лидеры группы" FontSize="17" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+                    <VerticalStackLayout x:Name="LeadersStack" Spacing="8" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Activity -->
+            <Border x:Name="ActivityCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 16" Stroke="#3a3a3a" StrokeThickness="1" Padding="24" IsVisible="False">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Последняя активность" FontSize="17" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+                    <VerticalStackLayout x:Name="ActivityStack" Spacing="8" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label x:Name="ErrorLabel" Text="" TextColor="#E07A5F" FontSize="13" IsVisible="False" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

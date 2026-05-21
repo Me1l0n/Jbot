@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Jbot.Views.HomeworkPage"
+             BackgroundColor="#1a1a1a"
+             Title="Домашки">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <Border Grid.Row="0" BackgroundColor="#242424" StrokeThickness="0" Padding="16,14">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Статистика" FontSize="15" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Border BackgroundColor="#33241C" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,8">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="CountTotal" Text="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#D97757" HorizontalOptions="Center" />
+                            <Label Text="Всего" FontSize="10" TextColor="#D97757" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="#1C3326" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,8">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="CountChecked" Text="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#7EC699" HorizontalOptions="Center" />
+                            <Label Text="Проверено" FontSize="10" TextColor="#7EC699" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="2" BackgroundColor="#33301C" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,8">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="CountCurrent" Text="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#E8C872" HorizontalOptions="Center" />
+                            <Label Text="Текущие" FontSize="10" TextColor="#E8C872" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Border BackgroundColor="#1C2833" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,8">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="CountReview" Text="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#6BA3D6" HorizontalOptions="Center" />
+                            <Label Text="На проверке" FontSize="10" TextColor="#6BA3D6" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="#331C1C" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,8">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="CountOverdue" Text="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#E07A5F" HorizontalOptions="Center" />
+                            <Label Text="Просрочено" FontSize="10" TextColor="#E07A5F" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="2" BackgroundColor="#2A2A2A" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,8">
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                            <Label x:Name="CountDeleted" Text="0" FontSize="22" FontFamily="OpenSansSemibold" TextColor="#888" HorizontalOptions="Center" />
+                            <Label Text="Удалено" FontSize="10" TextColor="#888" HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <VerticalStackLayout x:Name="ChartStack" Spacing="4" Margin="0,4,0,0" />
+            </VerticalStackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Padding="16,8" Spacing="6">
+                <Button x:Name="BtnAll" Text="Все" Clicked="OnFilterClicked" ClassId="all" BackgroundColor="#D97757" TextColor="White" FontSize="12" CornerRadius="14" Padding="14,6" HeightRequest="32" />
+                <Button Text="Текущие" Clicked="OnFilterClicked" ClassId="3" BackgroundColor="#363636" TextColor="#E8C872" FontSize="11" CornerRadius="14" Padding="12,6" HeightRequest="32" />
+                <Button Text="На проверке" Clicked="OnFilterClicked" ClassId="2" BackgroundColor="#363636" TextColor="#6BA3D6" FontSize="11" CornerRadius="14" Padding="12,6" HeightRequest="32" />
+                <Button Text="Просрочено" Clicked="OnFilterClicked" ClassId="0" BackgroundColor="#363636" TextColor="#E07A5F" FontSize="11" CornerRadius="14" Padding="12,6" HeightRequest="32" />
+                <Button Text="Проверено" Clicked="OnFilterClicked" ClassId="1" BackgroundColor="#363636" TextColor="#7EC699" FontSize="11" CornerRadius="14" Padding="12,6" HeightRequest="32" />
+                <Button Text="Удалено" Clicked="OnFilterClicked" ClassId="5" BackgroundColor="#363636" TextColor="#888" FontSize="11" CornerRadius="14" Padding="12,6" HeightRequest="32" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="16,8,16,16" Spacing="10">
+                <ActivityIndicator x:Name="Loader" IsRunning="False" Color="#D97757" HeightRequest="40" IsVisible="False" />
+                <Label x:Name="FilterLabel" Text="" FontSize="14" FontFamily="OpenSansSemibold" TextColor="#A09B93" IsVisible="False" />
+                <VerticalStackLayout x:Name="HomeworkStack" Spacing="10" />
+                <Label x:Name="EmptyLabel" Text="Нет домашних заданий" FontSize="14" TextColor="#888" HorizontalOptions="Center" IsVisible="False" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

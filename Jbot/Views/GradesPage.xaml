@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Jbot.Views.GradesPage"
+             BackgroundColor="#1a1a1a"
+             Title="Оценки">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <ScrollView Grid.Row="0" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" BackgroundColor="#242424">
+            <HorizontalStackLayout Padding="16,10" Spacing="6" x:Name="TabsContainer" />
+        </ScrollView>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,12" Spacing="14">
+                <ActivityIndicator x:Name="Loader" IsRunning="True" Color="#D97757" HeightRequest="40" />
+
+                <!-- Stats -->
+                <Border x:Name="StatsCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 14" Stroke="#3a3a3a" StrokeThickness="1" Padding="20" IsVisible="False">
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,6">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                                <Label x:Name="StatsCount" Text="0" FontSize="18" FontFamily="OpenSansSemibold" TextColor="#D97757" HorizontalOptions="Center" />
+                                <Label Text="Всего" FontSize="9" TextColor="#888" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,6">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                                <Label x:Name="StatsAvg" Text="—" FontSize="18" FontFamily="OpenSansSemibold" TextColor="#7EC699" HorizontalOptions="Center" />
+                                <Label Text="Средняя" FontSize="9" TextColor="#888" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,6">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                                <Label x:Name="StatsMax" Text="—" FontSize="18" FontFamily="OpenSansSemibold" TextColor="#E8C872" HorizontalOptions="Center" />
+                                <Label Text="Макс" FontSize="9" TextColor="#888" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border BackgroundColor="#363636" StrokeShape="RoundRectangle 10" Stroke="Transparent" Padding="10,6">
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+                                <Label x:Name="StatsCategoryAvg" Text="—" FontSize="18" FontFamily="OpenSansSemibold" TextColor="#5EBFA0" HorizontalOptions="Center" />
+                                <Label x:Name="StatsCategoryLabel" Text="Ср. тип" FontSize="9" TextColor="#888" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Chart -->
+                <Border x:Name="ChartCard" BackgroundColor="#2d2d2d" StrokeShape="RoundRectangle 14" Stroke="#3a3a3a" StrokeThickness="1" Padding="20" IsVisible="False">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Распределение оценок" FontSize="15" FontFamily="OpenSansSemibold" TextColor="#F5F5F0" />
+                        <VerticalStackLayout x:Name="ChartStack" Spacing="5" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <VerticalStackLayout x:Name="ContentStack" Spacing="10" />
+                <Label x:Name="EmptyLabel" Text="Нет оценок" FontSize="14" TextColor="#888" HorizontalOptions="Center" IsVisible="False" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

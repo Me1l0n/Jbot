@@ -1,0 +1,49 @@
+# ── Секреты и пользовательские данные ──
+.env
+user_info.json
+
+# ── Бандл оригинального веб-приложения (2.4 MB, не используется) ──
+app_bundle.js
+
+# ── Build results ──
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+*.exe
+*.dll
+*.pdb
+
+# ── IDE ──
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ── NuGet ──
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# ── Windows ──
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── macOS ──
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Rider ──
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# ── Crash logs ──
+crash*.json
