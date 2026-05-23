@@ -477,17 +477,19 @@ GET /homework/operations/list?page=1&status=0&type=0&group_id=10
 
 ---
 
-### 📄 Документы (`/documents`) — 3
+### 📄 Документы (`/documents`) — 5
 
 | Метод | Endpoint | Описание |
 |:-----:|----------|----------|
 | POST | `/documents/save` | Сохранить документ |
 | POST | `/documents/set-field-value` | Установить значение поля |
 | POST | `/documents/delete-field-value` | Удалить значение поля |
+| GET | `/documents/get-profile-fields?studentId=` | Получение полей профиля для документов |
+| GET | `/documents/get?studentId=` | Получение документа студента |
 
 ---
 
-### 🍽️ Питание (`/nutrition`) — 6
+### 🍽️ Питание (`/nutrition`) — 7
 
 | Метод | Endpoint | Описание |
 |:-----:|----------|----------|
@@ -496,6 +498,7 @@ GET /homework/operations/list?page=1&status=0&type=0&group_id=10
 | GET | `/nutrition/parent/get-order-menu` | Меню для заказа |
 | POST | `/nutrition/parent/order-food` | Заказать еду |
 | POST | `/nutrition/parent/cancellation-order` | Отменить заказ |
+| POST | `/nutrition/parent/top-up-account` | Пополнение баланса питания |
 | GET | `/nutrition/student/get-qr-code` | QR-код студента |
 
 ---
@@ -519,31 +522,81 @@ GET /homework/operations/list?page=1&status=0&type=0&group_id=10
 
 ---
 
-### 📖 Истории / Материалы / Публичное — 5
+### 📖 Истории / Материалы / Публичное — 7
 
 | Метод | Endpoint | Описание |
 |:-----:|----------|----------|
 | GET | `/story/operations/get-stories` | Получить истории |
 | GET | `/material/operations/get-material` | Получить материал |
 | GET | `/public/cities` | Список городов |
+| GET | `/public/languages` | Список языков |
 | GET | `/public/tags` | Список тегов |
 | GET | `/public/translations` | Переводы интерфейса |
+| HEAD | `/` | Пинг для проверки доступности API/сессии |
 
 ---
 
-### 📁 Файловое хранилище (отдельный сервер)
+### 📁 Файловое хранилище (`https://fs.top-academy.ru`) — 5
+
+> **Авторизация:** Для работы с файловым хранилищем используется отдельный JWT-токен,
+> получаемый через `POST /auth/file-token` на основном API.
+> Бэкенд: nginx + S3/MinIO.
 
 | Метод | Endpoint | Описание |
 |:-----:|----------|----------|
-| POST | `https://fs.top-academy.ru/api/v1/files` | Загрузка файлов |
+| POST | `/api/v1/files` | Загрузка файлов (multipart: `directory` + `files`) |
+| GET | `/api/v1/files/{hash}` | Скачивание файла по хешу |
+| HEAD | `/api/v1/files/{hash}` | Метаданные файла (имя, размер, дата, ETag) |
+| DELETE | `/api/v1/files/{hash}` | Удаление файла (нужен доступ `file.delete`) |
+| POST | `/api/v1/auth` | Аутентификация на файловом сервере |
+
+<details>
+<summary>📋 Ответ POST /auth/file-token</summary>
+
+```json
+{
+  "token": "<JWT>",
+  "url": "https://fs.top-academy.ru",
+  "dir": {
+    "homeworkDirId":   { "src": "<hash>", "info": "Homework directory ID" },
+    "portfolioDirId": { "src": "<hash>", "info": "Portfolio directory ID" },
+    "marketDirId":     { "src": "<hash>", "info": "Market directory ID" },
+    "reviewDirId":     { "src": "<hash>", "info": "Review directory ID" },
+    "examDirId":       { "src": "<hash>", "info": "Exam directory ID" },
+    "photoStudDirId": { "src": "<hash>", "info": "Photos directory ID" },
+    "documentsDirId": { "src": "<hash>", "info": "Documents directory ID" }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>📋 HEAD-ответ /api/v1/files/{hash} — S3-метаданные</summary>
+
+```
+Content-Disposition: attachment; filename="photo.jpg"
+X-Amz-Meta-Access_key: <hash>
+X-Amz-Meta-Client_name: original_filename.jpg
+X-Amz-Meta-Created_at: 1765875601
+X-Amz-Meta-Created_by: 17212693
+X-Amz-Meta-Directory_id: 33
+X-Amz-Meta-Project_id: 4
+Content-Length: 105876
+ETag: "44f0226c..."
+```
+
+</details>
 
 ---
 
 ### 📊 Сводка
 
-| | GET | POST | Всего |
-|---|:---:|:----:|:-----:|
-| **Эндпоинтов** | 93 | 67 | **160** |
+| | GET | POST | HEAD | DELETE | Всего |
+|---|:---:|:----:|:----:|:------:|:-----:|
+| **msapi** | 97 | 66 | 1 | 0 | **164** |
+| **fs** | 1 | 2 | 1 | 1 | **5** |
+| **Итого** | **98** | **68** | **2** | **1** | **169** |
 
 ---
 
