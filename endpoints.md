@@ -12,7 +12,7 @@ Authorization: Bearer <access_token>   (после авторизации)
 ```
 
 > Источник: `app_bundle.js` — оригинальный бандл веб-приложения journal.top-academy.ru  
-> Найдено: **155 эндпоинтов**
+> Найдено: **169 эндпоинтов** (165 msapi + 4 дополнительных fs.top-academy.ru, обнаруженных через API-пробинг)
 
 ---
 
@@ -362,11 +362,53 @@ Authorization: Bearer <access_token>   (после авторизации)
 
 ---
 
-## 27. ФАЙЛОВОЕ ХРАНИЛИЩЕ (отдельный сервер) — 1 эндпоинт
+## 27. ФАЙЛОВОЕ ХРАНИЛИЩЕ (отдельный сервер `https://fs.top-academy.ru`) — 5 эндпоинтов
 
-| # | Метод | Endpoint | Описание |
-|---|-------|----------|----------|
-| 165 | POST | `https://fs.top-academy.ru/api/v1/files` | Загрузка файлов |
+> **Авторизация:** Для работы с файловым хранилищем используется отдельный токен,
+> получаемый через `POST /auth/file-token` на основном API (msapi).
+> Токен передаётся в заголовке `Authorization: Bearer <file_token>`.
+>
+> **Бэкенд:** nginx + S3/MinIO (судя по заголовкам `X-Amz-*`).
+
+| # | Метод | Endpoint | Описание | Статус |
+|---|-------|----------|----------|--------|
+| 165 | POST | `/api/v1/files` | Загрузка файлов (multipart, обязательные поля: `directory`, `files`) | ✅ 422 без полей |
+| 166 | GET | `/api/v1/files/{hash}` | Скачивание файла по хешу (возвращает `application/octet-stream`) | ✅ 200 |
+| 167 | HEAD | `/api/v1/files/{hash}` | Метаданные файла (имя, дата создания, directory_id, project_id, ETag) | ✅ 200 |
+| 168 | DELETE | `/api/v1/files/{hash}` | Удаление файла (требуется расширенный доступ, `file.delete`) | ✅ 403 для студента |
+| 169 | POST | `/api/v1/auth` | Аутентификация на файловом сервере | ✅ 401 без данных |
+
+### Получение файлового токена
+
+`POST https://msapi.top-academy.ru/api/v2/auth/file-token` возвращает:
+```json
+{
+  "token": "<JWT>",
+  "url": "https://fs.top-academy.ru",
+  "dir": {
+    "homeworkDirId":    { "src": "<hash>", "info": "Homework directory ID" },
+    "portfolioDirId":  { "src": "<hash>", "info": "Portfolio directory ID" },
+    "marketDirId":     { "src": "<hash>", "info": "Market directory ID" },
+    "reviewDirId":     { "src": "<hash>", "info": "Review directory ID" },
+    "examDirId":       { "src": "<hash>", "info": "Review directory ID" },
+    "photoStudDirId":  { "src": "<hash>", "info": "Photos directory ID" },
+    "documentsDirId":  { "src": "<hash>", "info": "Documents directory ID" }
+  }
+}
+```
+
+### HEAD-ответ `/api/v1/files/{hash}`
+
+Возвращает S3-метаданные в заголовках:
+- `Content-Disposition` — имя файла
+- `X-Amz-Meta-Access_key` — хеш доступа
+- `X-Amz-Meta-Client_name` — оригинальное имя файла
+- `X-Amz-Meta-Created_at` — timestamp создания
+- `X-Amz-Meta-Created_by` — ID загрузившего
+- `X-Amz-Meta-Directory_id` — ID директории
+- `X-Amz-Meta-Project_id` — ID проекта
+- `Content-Length` — размер файла
+- `ETag` — хеш содержимого
 
 ---
 
@@ -400,5 +442,34 @@ Authorization: Bearer <access_token>   (после авторизации)
 | МАТЕРИАЛЫ | 1 | 1 | 0 | 0 |
 | ПУБЛИЧНЫЕ ДАННЫЕ | 3 | 3 | 0 | 0 |
 | ЭКЗАМЕНЫ | 1 | 1 | 0 | 0 |
-| ФАЙЛОВОЕ ХРАНИЛИЩЕ (отдельный сервер) | 1 | 0 | 1 | 0 |
-| **ИТОГО** | **165** | **97** | **66** | **2** |
+| ФАЙЛОВОЕ ХРАНИЛИЩЕ (отдельный сервер) | 5 | 1 | 2 | 2 |
+| **ИТОГО** | **169** | **98** | **68** | **4** |
+
+---
+
+## 28. РЕЗУЛЬТАТЫ ВЕРИФИКАЦИИ ЭНДПОИНТОВ (API-пробинг 23.05.2026)
+
+> Все эндпоинты были проверены реальными HTTP-запросами к API.
+> Статус-коды: 200/204 = работает, 400 = нужны параметры, 403 = нужны права,
+> 405 = неправильный метод, 410 = устарел, 500 = ошибка сервера.
+
+### msapi.top-academy.ru — Статусы
+
+| Статус | Эндпоинты |
+|--------|----------|
+| ✅ 200 | `/settings/user-info`, `/settings/group-specs`, `/settings/history-specs`, `/settings/public-forms`, `/dashboard/progress/activity`, `/dashboard/progress/attendance-statistic`, `/dashboard/progress/academic-performance`, `/dashboard/progress/leader-group`, `/dashboard/progress/leader-group-points`, `/dashboard/progress/leader-stream`, `/dashboard/progress/leader-stream-points`, `/dashboard/chart/progress`, `/dashboard/chart/attendance`, `/dashboard/chart/average-progress`, `/dashboard/info/future-exams`, `/schedule/operations/get-by-date`, `/schedule/operations/get-month`, `/schedule/operations/get-by-date-range`, `/schedule/operations/month-events`, `/count/page-counters`, `/count/homework`, `/count/library`, `/homework/operations/list`, `/news/operations/latest-news`, `/news/operations/count-unread`, `/progress/operations/student-visits`, `/progress/operations/student-exams`, `/progress/operations/school-quarterly-grades`, `/signal/operations/signals-list`, `/signal/operations/count-unread`, `/signal/operations/problems-list`, `/portfolio/operations/list`, `/portfolio/operations/history`, `/portfolio/operations/design-teachers`, `/payment/operations/index`, `/payment/operations/history`, `/payment/operations/schedule`, `/payment/operations/download-requisites`, `/contacts/operations/index`, `/feedback/social-review/get-review-list`, `/feedback/students/evaluate-lesson-list`, `/referral/operations/list`, `/reviews/index/list`, `/reviews/index/instruction`, `/story/operations/get-stories`, `/public/cities`, `/public/languages`, `/public/tags`, `/public/translations`, `/nutrition/parent/get-balance`, `/nutrition/parent/get-list-transaction`, `/nutrition/parent/get-order-menu`, `/profile/operations/settings`, `/profile/statistic/student-achievements`, `/homework/evaluation/operations/get-tags`, `/homework/settings/group-history`, `/library/operations/quizzes-academic-debt`, `/documents/get-profile-fields`, `/documents/get` |
+| ✅ 204 | `/signal/operations/get-reference-status`, `/payment/operations/check-cancellation`, `/library/quiz/opened-interview`, `/contacts/mailing/check-confirmation` |
+| ⚠️ 400 | `/settings/public-specs`, `/library/operations/list`, `/signal/operations/get-reference-data`, `/portfolio/operations/design-specs`, `/feedback/students/evaluate-academy-day`, `/market/customer/product/list`, `/market/customer/order/list`, `/market/customer/order/info`, `/material/operations/get-material`, `/individual/operations/get-list-voucher`, `/homework/evaluation/operations/get`, `/library/quiz/get-time-between-retries`, `/signal/operations/signals-comments`, `/news/operations/detail-news`, `/contacts/mailing/emails-list`, `/contacts/mailing/check-unsubscription-key` |
+| 🔒 403 | `/library/operations/list-all`, `/vacancy/operations/available-vacancies`, `/vacancy/operations/count-unread`, `/individual/operations/info-payments`, `/market/admin/*` (все 7 эндпоинтов), `/settings/admin-groups`, `/settings/admin-group-students` |
+| 🔀 405 | `/count/set-view-materials` (нужен POST) |
+| ⛔ 410 | `/progress/operations/plan-url`, `/vacancy/operations/settings`, `/referral/operations/check-new-reward` |
+| 💥 500 | `/nutrition/student/get-qr-code`, `/nutrition/parent/get-menu` |
+
+### fs.top-academy.ru — Статусы
+
+| Статус | Эндпоинты |
+|--------|----------|
+| ✅ 200 | `GET /api/v1/files/{hash}`, `HEAD /api/v1/files/{hash}` |
+| ⚠️ 422 | `POST /api/v1/files` (нужны `directory` и `files`) |
+| 🔒 403 | `DELETE /api/v1/files/{hash}` (нужен `file.delete` доступ) |
+| 🔑 401 | `POST /api/v1/auth` (нужны креды) |
